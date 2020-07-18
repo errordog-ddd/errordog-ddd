@@ -1,1 +1,103 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">;
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css'>;
+<style>
+@import url(https://fonts.googleapis.com/css?family=Lato); body { display:
+flex; height: 100vh; justify-content: center; align-items: center; background:
+url("http://i0.hdslb.com/bfs/archive/c5d160aa33478e6711ad84a819b56beea9eaab25.jpg";)
+0/cover fixed; font-family: "Lato"; } .login-form { display: flex; flex-direction:
+column; align-items: center; padding: 3em; background: rgba(225, 225, 225,
+0); color: white; border-radius: 10px; box-shadow: 0 15px 20px rgba(0,
+0, 0, 0.5); } .login-form h1 { font-size: 2.5em; margin-bottom: 0.3em;
+padding: 12px 0; } .login-form .form-field { position: relative; font-size:
+20px; border-bottom: 1px solid white; margin: 20px 0 8px 0; transition:
+0.4s; } .login-form .form-field::after { position: absolute; content: "";
+width: 100%; height: 2px; bottom: -1px; left: 0; background: #DC143C; transform-origin:
+left; transform: scaleX(0); transition: 0.4s ease; } .login-form .form-field:focus-within::after
+{ transform: scaleX(1); } .login-form .form-field input { border: none;
+outline: none; background: transparent; color: white; padding-left: 10px;
+} .login-form .form-field input:focus ~ label, .login-form .form-field
+input:not(:placeholder-shown) ~ label { top: 0; font-size: 15px; } .login-form
+.form-field input:valid ~ label { color: #a64d79; } .login-form .form-field
+input:invalid ~ label { color: #e74c3c; } .login-form .form-field label
+{ position: absolute; left: 32px; top: 24px; transition: 0.4s; } .login-form
+.btn { position: relative; outline: none; background: transparent; color:
+white; border: 2px solid #3398db; width: 100%; font-size: 1.2em; margin:
+36px 0 18px 0; padding: 6px 0; cursor: pointer; overflow: hidden; transition:
+0.5s; } .login-form .btn::before { position: absolute; content: ""; width:
+100%; height: 100%; top: 0; left: 0; background: linear-gradient(120deg,
+transparent, rgba(51, 152, 219, 0.5), transparent); transform: translateX(-100%);
+transition: 0.5s; } .login-form .btn:hover { box-shadow: 0 0 20px 10px
+rgba(51, 152, 219, 0.5); } .login-form .btn:hover::before { transform:
+translateX(100%); }
+</style>
+</head>
+<body>
+<form class="login-form" action="javascript:void(0);">
+<!--标题-->
+<h1 id="title">
+</h1>
+<!--公告-->
+<a id="notice">
+</a>
+<!--单码/点卡输入框-->
+<div class="form-field">
+<input type="text" name="code" id="code" class="form-field" pattern="^[a-zA-Z0-9_-]{1,16}$"
+placeholder="请输入你的激活码">
+</div>
+<!--验证单码/点卡 按钮-->
+<button type="submit" class="btn" onclick="Call_Verify(code.value);">
+验证
+</button>
+<!--查码/试用 按钮-->
+<button id="Query_Trial" type="submit" class="btn" onclick="Call_Query_Trial(code.value);">
+</button>
+<!--购卡 按钮-->
+<button id="Pay" type="submit" class="btn" onclick="Call_Pay();">
+购卡
+</button>
+</form>
+<!--JS脚本-->
+<script>
+//获取弹窗标题
+document.getElementById("title").innerHTML = PanGolin.GetTitle();
+
+//获取公告
+document.getElementById("notice").innerHTML = PanGolin.GetNotice();
+
+//判断是否开启试用
+document.getElementById("Query_Trial").innerHTML = PanGolin.Is_Trial() == true ? "试用": "查码";
+
+//判断是否配置发卡网
+document.getElementById("Pay").style.display = PanGolin.Is_Pay() == true ? "block": "none";
+
+//验证单码/点卡
+function Call_Verify(data) {
+
+PanGolin.Verify(data);
+
+}
+
+//查码/试用
+function Call_Query_Trial(data) {
+
+if (PanGolin.Is_Trial()) PanGolin.Trial();
+
+else PanGolin.Query(data);
+
+}
+
+//购卡
+function Call_Pay() {
+
+PanGolin.Pay();
+
+}
+</script>
+</body>
+
+</html>
